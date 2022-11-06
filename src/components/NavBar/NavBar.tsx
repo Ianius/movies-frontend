@@ -21,7 +21,11 @@ const NavBar = () => {
 
     return (
         <Center
-            bg={useColorModeValue('white', 'rgb(14, 23, 38)')}
+            position='sticky'
+            top='0px'
+            w='100%'
+            zIndex={1000}
+            bg={useColorModeValue('lightNavbar', 'darkNavbar')}
             minH='60px'
             color={useColorModeValue('black', 'white')}
             shadow={'base'}
@@ -37,7 +41,7 @@ const NavBar = () => {
                     mx={2}
                     fontWeight='bold'
                     flex={1}
-                    textAlign='center'
+                    textAlign='start'
                 >
                     movies
                 </Heading>
@@ -59,6 +63,7 @@ const NavBar = () => {
                         color={useColorModeValue('black', 'white')}
                         placeholder='Search movies'
                         _placeholder={{ color: useColorModeValue('black', 'blue.50'), opacity: 0.8 }}
+                        border='none'
                     />
                 </InputGroup>
 

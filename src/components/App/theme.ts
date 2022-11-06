@@ -3,8 +3,15 @@ import { mode } from '@chakra-ui/theme-tools'
 
 const theme = extendTheme({
     fonts: {
-        // heading: 'Hack',
-        // body: 'Montserrat'
+        heading: `'Roboto', sans-serif`,
+        body: `'Roboto', sans-serif`
+    },
+
+    colors: {
+        lightBackground: '#f8f8f8',
+        darkBackground: '#131c2e',
+        lightNavbar: '#f0f0f0',
+        darkNavbar: 'rgb(14, 23, 38)'
     },
 
     config: {
@@ -15,7 +22,7 @@ const theme = extendTheme({
     styles: {
         global: (props: StyleFunctionProps) => ({
             body: {
-                bg: mode('F1FAEE', '#131c2e')(props)
+                bg: mode('lightBackground', 'darkBackground')(props)
             }
         })
     }

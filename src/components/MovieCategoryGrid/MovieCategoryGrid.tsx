@@ -1,5 +1,5 @@
 import { StarIcon } from '@chakra-ui/icons';
-import { AspectRatio, Badge, Box, Center, CircularProgress, Flex, Grid, Heading, Image, Popover, PopoverAnchor, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, SimpleGrid, Skeleton, SkeletonText, Spacer, Text, Stack, Tag, useColorModeValue } from '@chakra-ui/react';
+import { AspectRatio, Box, Center, Flex, Heading, Image, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, SimpleGrid, Skeleton, SkeletonText, Spacer, Text, Tag, useColorModeValue, Wrap } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { API } from '../../api';
 
@@ -43,20 +43,7 @@ interface Genres {
 const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolean }) => {
     const { data: genres } = useQuery<Genres>(["genres"], API.getGenres);
     const bg = useColorModeValue('white', 'rgb(32, 43, 67)')
-
-    if (false) {
-        return (
-            <AspectRatio
-                w='100%'
-                ratio={500 / 750}
-            >
-                <Stack>
-                    <Skeleton w='100%' h='100%' />
-                    <SkeletonText w='100%' h='10%' skeletonHeight={1}/>
-                </Stack>
-            </AspectRatio>
-        );
-    }
+    const coverURL = API.getImageURL('w500', movie.poster_path);
 
     return (
         <Box>
@@ -76,11 +63,11 @@ const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolea
                                 isLoaded={!loading}
                             >
                                 <Image
-                                    src={API.getImageURL('w500', movie.poster_path)}
+                                    src={coverURL}
                                     cursor='pointer'
                                     borderRadius={4}
                                     dropShadow='outline'
-                                />
+                                    />
 
                                 <Tag
                                     size='md'
@@ -102,38 +89,65 @@ const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolea
                 <PopoverContent
                     bg={bg}
                     pointerEvents='none'
+                    border='none'
                     shadow='md'
+                    overflow='hidden'
                 >
+
                     <PopoverHeader fontWeight='semibold'>Summary</PopoverHeader>
                     <PopoverArrow />
 
                     <PopoverBody>
                         {movie.overview}
 
+                        <Image
+                            w='100%'
+                            h='100%'
+                            top='0px'
+                            left='0px'
+                            src={coverURL}
+                            objectFit='cover'
+                            position='absolute'
+                            transform='scale(2)'
+                            zIndex={-1}
+                            filter='auto'
+                            blur='20px'
+                            bg='black'
+                            opacity={0.4}
+                            />
+
                         <Text mt={2} fontWeight='semibold'>Release date</Text>
                         <Text>{movie.release_date}</Text>
                         <Text fontWeight='semibold'>Rating</Text>
-                        <Flex
-                            alignItems='center'
-                            justifyItems='center'
-                            gap={1}
-                        >
-                            <StarIcon color='yellow.400' />
+
+                        {/*
+<Box
+<StarIcon color='yellow.400' h='20px'/>
+<Text as='span' fontSize='20px'>{movie.vote_average}</Text>
+</Box>
+*/}
+
+                        <Flex align="center">
+                            <StarIcon color="yellow" mr="1" w="3" h="3" />
                             <Text>{movie.vote_average}</Text>
                         </Flex>
                     </PopoverBody>
 
                     <PopoverFooter>
-                        {movie.genre_ids.map(id =>
-                            <Tag
-                                variant='solid'
-                                fontWeight='bold'
-                                key={id}
-                                mr={2}
-                                mb={1}
-                            >
-                                {genres && genres.genres.find(genre => genre.id === id)?.name}
-                            </Tag>)}
+                        <Wrap
+                            spacing='4px'
+                            w='100%'
+                        >
+                            {movie.genre_ids.map(id =>
+                                <Tag
+                                    variant='solid'
+                                    fontWeight='bold'
+                                    key={id}
+                                >
+                                    {genres && genres.genres.find(genre => genre.id === id)?.name}
+                                </Tag>
+                            )}
+                        </Wrap>
                     </PopoverFooter>
                 </PopoverContent>
             </Popover>
@@ -151,7 +165,7 @@ const MovieCategoryGrid = ({ amountOfMoviesToShow = 12, title, query }: Props) =
     const { data, error } = useQuery<MoviePageResponse, Error>([title], query);
 
     if (error)
-        return <div>Error! {error.message}</div>;
+    return <div>Error! {error.message}</div>;
 
     const emptyMovieData: Movie = {
         poster_path: "",
@@ -175,15 +189,15 @@ const MovieCategoryGrid = ({ amountOfMoviesToShow = 12, title, query }: Props) =
     let movies;
 
     if (data)
-        movies =
-            data.results
-                .slice(0, amountOfMoviesToShow)
-                .map((movie, i) => <MovieCover key={i} movie={movie} />);
+    movies =
+        data.results
+        .slice(0, amountOfMoviesToShow)
+        .map((movie, i) => <MovieCover key={i} movie={movie} />);
     else
-        movies =
-            Array(amountOfMoviesToShow)
-                .fill(0)
-                .map((_, i) => <MovieCover key={i} movie={emptyMovieData} loading />)
+    movies =
+        Array(amountOfMoviesToShow)
+        .fill(0)
+        .map((_, i) => <MovieCover key={i} movie={emptyMovieData} loading />)
 
     return (
         <Center>
