@@ -1,7 +1,7 @@
 import { StarIcon } from '@chakra-ui/icons';
 import { AspectRatio, Box, Center, Flex, Heading, Image, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, SimpleGrid, Skeleton, SkeletonText, Spacer, Text, Tag, useColorModeValue, Wrap } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { API } from '../../api';
+import { API } from '../api';
 
 interface Movie {
     poster_path: string;
@@ -41,9 +41,9 @@ interface Genres {
 }
 
 const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolean }) => {
-    const { data: genres } = useQuery<Genres>(["genres"], API.getGenres);
+    const { data: genres } = useQuery<Genres>(["genres"], API.genres);
     const bg = useColorModeValue('white', 'rgb(32, 43, 67)')
-    const coverURL = API.getImageURL('w500', movie.poster_path);
+    const coverURL = API.buildImageURL('w500', movie.poster_path);
 
     return (
         <Box>
@@ -120,13 +120,6 @@ const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolea
                         <Text>{movie.release_date}</Text>
                         <Text fontWeight='semibold'>Rating</Text>
 
-                        {/*
-<Box
-<StarIcon color='yellow.400' h='20px'/>
-<Text as='span' fontSize='20px'>{movie.vote_average}</Text>
-</Box>
-*/}
-
                         <Flex align="center">
                             <StarIcon color="yellow" mr="1" w="3" h="3" />
                             <Text>{movie.vote_average}</Text>
@@ -164,8 +157,9 @@ const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolea
 const MovieCategoryGrid = ({ amountOfMoviesToShow = 12, title, query }: Props) => {
     const { data, error } = useQuery<MoviePageResponse, Error>([title], query);
 
-    if (error)
-    return <div>Error! {error.message}</div>;
+    if (error) {
+        return <Center>Error! {error.message}</Center>;
+    }
 
     const emptyMovieData: Movie = {
         poster_path: "",

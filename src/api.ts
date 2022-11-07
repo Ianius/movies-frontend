@@ -1,27 +1,30 @@
 // TODO: Change this later
-const API_KEY = '129dbef32e22e193a1b9828c08a68bb9';
 const IMAGE_URL = 'https://image.tmdb.org/t/p/';
+const BASE_URL = 'http://localhost:8000/api/movies';
 
 export namespace API {
-    export const fetchPopularMovies = async () => {
+    export const popular = async () => {
+        // return (
+        //     (await fetch(`${BASE_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`)).json()
+        // );
         return (
-            (await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`)).json()
+            (await fetch(`${BASE_URL}/popular`)).json()
         );
     };
 
-    export const fetchTrendingMovies = async () => {
+    export const trending = async () => {
         return (
-            (await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`)).json()
+            (await fetch(`${BASE_URL}/trending`)).json()
         );
     };
 
-    export const getImageURL = (size: string, filePath: string) => {
+    export const buildImageURL = (size: string, filePath: string) => {
         return `${IMAGE_URL}${size}${filePath}`;
     };
 
-    export const getGenres = async () => {
+    export const genres = async () => {
         return (
-            (await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`)).json()
+            (await fetch(`${BASE_URL}/genres`)).json()
         );
     };
 }

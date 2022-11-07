@@ -1,7 +1,7 @@
-import {SearchIcon} from "@chakra-ui/icons";
+import { SearchIcon } from "@chakra-ui/icons";
 import { Box, Center, Heading, Input, InputGroup, InputLeftElement, useColorMode, useColorModeValue, VStack } from "@chakra-ui/react";
 
-import moviesImage from '../../assets/movies.png';
+import moviesImage from '../assets/movies.png';
 
 const Hero = () => {
     const { colorMode } = useColorMode();
