@@ -1,5 +1,5 @@
 import { SearchIcon } from "@chakra-ui/icons";
-import { Box, Center, Heading, Input, InputGroup, InputLeftElement, useColorMode, useColorModeValue, VStack } from "@chakra-ui/react";
+import { AspectRatio, Box, Button, Center, Heading, Input, InputGroup, InputLeftElement, InputRightElement, useColorMode, useColorModeValue, VStack } from "@chakra-ui/react";
 
 import moviesImage from '../assets/movies.png';
 
@@ -54,19 +54,38 @@ const Hero = () => {
                     >
                         <InputLeftElement pointerEvents='none'>
                             <SearchIcon
-
-                                color={useColorModeValue('black', 'blue.50')}
-                            />
+                                color='gray.400'
+                                />
                         </InputLeftElement>
 
+                        <InputRightElement
+                            right='-1px'
+                            w='100px'
+                            h='100%'
+                            bg='transparent'
+                        >
+                            <Button
+                                w='100%'
+                                h='100%'
+                                bg='accent'
+                                borderRadius='full'
+                            >
+                                Search
+                            </Button>
+                        </InputRightElement>
+
                         <Input
-                            bg={useColorModeValue('white', 'rgb(32, 43, 67)')}
+                            bg='white'
                             type='text'
                             shadow='md'
-                            color={useColorModeValue('black', 'white')}
+                            color='gray.600'
                             placeholder='Search movies'
-                            _placeholder={{ color: useColorModeValue('black', 'blue.50'), opacity: 0.8 }}
+                            _placeholder={{ color: 'gray.400', opacity: 0.8 }}
                             border='none'
+                            borderRadius='full'
+                            _focus={{border:'none'}}
+                            focusBorderColor='transparent'
+                            _selected={{border: 'none'}}
                             />
                     </InputGroup>
                 </VStack>

@@ -42,7 +42,7 @@ interface Genres {
 
 const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolean }) => {
     const { data: genres } = useQuery<Genres>(["genres"], API.genres);
-    const bg = useColorModeValue('white', 'rgb(32, 43, 67)')
+    const bg = useColorModeValue('white', 'rgb(32, 43, 67)');
     const coverURL = API.buildImageURL('w500', movie.poster_path);
 
     return (
@@ -72,7 +72,7 @@ const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolea
                                 <Tag
                                     size='md'
                                     position='absolute'
-                                    bg='rgb(245, 99, 118)'
+                                    bg='accent'
                                     right='8px'
                                     bottom='8px'
                                     borderRadius='full'
@@ -94,8 +94,7 @@ const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolea
                     overflow='hidden'
                 >
 
-                    <PopoverHeader fontWeight='semibold'>Summary</PopoverHeader>
-                    <PopoverArrow />
+                    <PopoverHeader fontWeight='semibold'>{movie.title}</PopoverHeader>
 
                     <PopoverBody>
                         {movie.overview}
@@ -126,13 +125,16 @@ const MovieCover = ({ movie, loading = false }: { movie: Movie, loading?: boolea
                         </Flex>
                     </PopoverBody>
 
-                    <PopoverFooter>
+                    <PopoverFooter
+                        p='8px'
+                    >
                         <Wrap
                             spacing='4px'
                             w='100%'
                         >
                             {movie.genre_ids.map(id =>
                                 <Tag
+                                    borderRadius='full'
                                     variant='solid'
                                     fontWeight='bold'
                                     key={id}

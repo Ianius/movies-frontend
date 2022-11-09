@@ -11,7 +11,8 @@ const theme = extendTheme({
         lightBackground: '#f8f8f8',
         darkBackground: '#131c2e',
         lightNavbar: '#f0f0f0',
-        darkNavbar: 'rgb(14, 23, 38)'
+        darkNavbar: 'rgb(14, 23, 38)',
+        accent: 'rgb(245, 99, 118)'
     },
 
     config: {
