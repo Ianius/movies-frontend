@@ -1,71 +1,66 @@
-import { MoonIcon, SearchIcon, SunIcon } from '@chakra-ui/icons';
+import { Icon, MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { RiMovieFill, RiMovie2Line } from 'react-icons/ri'
+import { MdArrowBackIosNew } from 'react-icons/md'
 import {
-    Button,
+    Link,
     Center,
     Flex,
     Heading,
     IconButton,
-    Input,
-    InputGroup,
-    InputLeftElement,
     Spacer,
     Stack,
-    Switch,
-    Text,
     useColorMode,
-    useColorModeValue
+    useColorModeValue,
+    HStack,
+    Box
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = ({ h }: { h: number }) => {
     const { colorMode, toggleColorMode } = useColorMode();
+    const navigate = useNavigate();
+    const onHeadingClicked = () => navigate('/');
 
     return (
         <Center
-            position='sticky'
-            top='0px'
             w='100%'
-            zIndex={1000}
-            bg={useColorModeValue('lightNavbar', 'darkNavbar')}
-            minH='60px'
-            color={useColorModeValue('black', 'white')}
-            shadow={'base'}
+            h={`${h}px`}
+            bg={useColorModeValue('navbarLight', 'navbarDark')}
+            top='0px'
+            zIndex='3'
+            position='sticky'
         >
             <Flex
                 w='100%'
                 h='100%'
                 py={2}
-                px='10%'
+                maxW='1300px'
+                color='white'
                 align='center'
             >
-                <Heading
+                <Link
                     mx={2}
-                    fontWeight='bold'
                     flex={1}
-                    textAlign='start'
+                    onClick={onHeadingClicked}
                 >
-                    movies
-                </Heading>
+                    <HStack gap={1}>
+                        <Center
+                            bg='cyan.500'
+                            boxSize='36px'
+                            borderRadius='full'
+                        >
+                            <Icon as={RiMovie2Line} boxSize='28px' color='white' />
+                        </Center>
 
-                <InputGroup
-                    mx={2}
-                    flex={2}
-                >
-                    <InputLeftElement pointerEvents='none'>
-                        <SearchIcon
-                            color={useColorModeValue('black', 'blue.50')}
-                        />
-                    </InputLeftElement>
+                        <Heading
+                            size='lg'
+                        >
+                            movies
+                        </Heading>
+                    </HStack>
+                </Link>
 
-                    <Input
-                        bg={useColorModeValue('white', 'rgb(32, 43, 67)')}
-                        type='text'
-                        shadow='md'
-                        color={useColorModeValue('black', 'white')}
-                        placeholder='Search movies'
-                        _placeholder={{ color: useColorModeValue('black', 'blue.50'), opacity: 0.8 }}
-                        border='none'
-                    />
-                </InputGroup>
+                <Spacer mx={2} flex={2} />
 
                 <Stack
                     mx={2}
@@ -76,6 +71,7 @@ const NavBar = () => {
                     <IconButton
                         aria-label='Toggle color mode'
                         icon={colorMode == 'dark' ? <SunIcon /> : <MoonIcon />}
+                        colorScheme='whiteAlpha'
                         onClick={toggleColorMode}
                     />
                 </Stack>

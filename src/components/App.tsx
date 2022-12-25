@@ -4,8 +4,15 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Footer from './Footer';
 import { useEffect } from 'react';
+import Search from '../pages/Search';
+import Movie from '../pages/Movie';
+import { Box } from '@chakra-ui/react';
+import ScrollToTop from './ScrollToTop';
 
 const App = () => {
+    const NAVBAR_HEIGHT = 64;
+    const FOOTER_HEIGHT = 60;
+
     const handleKeyDown = (event: KeyboardEvent) => {
         switch (event.key) {
             case 'Escape':
@@ -20,23 +27,34 @@ const App = () => {
     });
 
     return (
-        <Router>
-            <Helmet>
-                <title>Movies</title>
-                <meta
-                    name='description'
-                    content='Find movies, save lists and review them!'
+        <Box
+            color='white'
+        >
+            <Router>
+                <ScrollToTop />
+                <Helmet>
+                    <title>Movies</title>
+                    <meta
+                        name='description'
+                        content='Find all the movies you want!'
                     />
-            </Helmet>
+                </Helmet>
 
-            <NavBar />
+                <NavBar h={NAVBAR_HEIGHT} />
 
-            <Routes>
-                <Route path='/' element={<Home />} />
-            </Routes>
+                <Box
+                    minH={`calc(100vh - ${NAVBAR_HEIGHT + FOOTER_HEIGHT - 1}px)`}
+                >
+                    <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/search' element={<Search />} />
+                        <Route path='/movie/:id' element={<Movie />} />
+                    </Routes>
+                </Box>
 
-            <Footer />
-        </Router>
+                <Footer h={FOOTER_HEIGHT} />
+            </Router>
+        </Box>
     );
 };
 
