@@ -1,7 +1,7 @@
 import { MoviePageResponse } from "./interfaces/movies";
 
 const IMAGE_URL = 'https://image.tmdb.org/t/p/';
-const BASE_URL = 'http://localhost:8000/api/movies';
+const BASE_URL = 'https://movies-backend-production-9768.up.railway.app/api/movies';
 
 export namespace API {
     export async function popular(): Promise<MoviePageResponse> {
