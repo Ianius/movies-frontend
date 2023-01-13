@@ -1,82 +1,95 @@
 import { Icon, MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { RiMovieFill, RiMovie2Line } from 'react-icons/ri'
+import { RiMovie2Fill } from 'react-icons/ri'
+import { HiFilm } from 'react-icons/hi'
+import { RiMovieFill } from 'react-icons/ri'
 import { MdArrowBackIosNew } from 'react-icons/md'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-    Link,
     Center,
     Flex,
     Heading,
     IconButton,
+    ButtonGroup,
     Spacer,
     Stack,
+    Mark,
+    HStack,
+    Box,
+    Highlight,
+    InputGroup,
+    InputLeftElement,
+    InputRightElement,
+    Button,
+    Input,
     useColorMode,
     useColorModeValue,
-    HStack,
-    Box
+    useHighlight,
+    useDisclosure,
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
-const NavBar = ({ h }: { h: number }) => {
-    const { colorMode, toggleColorMode } = useColorMode();
+import ColorModeSwitch from './ColorModeSwitch';
+import SearchBar from './SearchBar';
+import LoginModal from './LoginModal';
+
+const NavBar = () => {
     const navigate = useNavigate();
-    const onHeadingClicked = () => navigate('/');
+    const { colorMode, toggleColorMode } = useColorMode();
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const goHome = () => navigate('/');
 
     return (
-        <Center
-            w='100%'
-            h={`${h}px`}
-            bg={useColorModeValue('navbarLight', 'navbarDark')}
-            top='0px'
-            zIndex='3'
-            position='sticky'
-        >
-            <Flex
+        <>
+            { /* Modals */ } 
+            <LoginModal isOpen={isOpen} onClose={onClose}/>
+
+            <HStack
                 w='100%'
-                h='100%'
-                py={2}
-                maxW='1300px'
-                color='white'
-                align='center'
+                bg={useColorModeValue('navbarLight', 'navbarDark')}
+                px='1em'
+                mb='1em'
+                top='0px'
+                zIndex='3'
+                justify='center'
+                position='sticky'
             >
-                <Link
-                    mx={2}
-                    flex={1}
-                    onClick={onHeadingClicked}
+                <Flex
+                    py='16px'
+                    maxW='1300px'
+                    align='center'
+                    boxSize='100%'
                 >
-                    <HStack gap={1}>
-                        <Center
-                            bg='cyan.500'
-                            boxSize='36px'
-                            borderRadius='full'
-                        >
-                            <Icon as={RiMovie2Line} boxSize='28px' color='white' />
-                        </Center>
+                    <Heading
+                        size='lg'
+                        color={useColorModeValue('black', 'white')}
+                        cursor='pointer'
+                        onClick={goHome}
+                    >
+                        <Box>
+                            film
 
-                        <Heading
-                            size='lg'
-                        >
-                            movies
-                        </Heading>
-                    </HStack>
-                </Link>
+                            <Mark bg={useColorModeValue('mainLight', 'mainDark')} color={useColorModeValue('white', 'black')} px='1.5' py='0.5'>
+                                feast
+                            </Mark>
+                        </Box>
+                    </Heading>
 
-                <Spacer mx={2} flex={2} />
+                    <SearchBar/>
 
-                <Stack
-                    mx={2}
-                    flex={1}
-                    direction='row'
-                    justifyContent='end'
-                >
-                    <IconButton
-                        aria-label='Toggle color mode'
-                        icon={colorMode == 'dark' ? <SunIcon /> : <MoonIcon />}
-                        colorScheme='whiteAlpha'
-                        onClick={toggleColorMode}
-                    />
-                </Stack>
-            </Flex>
-        </Center>
+                    <ButtonGroup
+                        variant='ghost'
+                        colorScheme='gray'
+                        mx='0.25em'
+                    >
+                        <Button onClick={onOpen}>Log In</Button>
+                        <Button onClick={() => {}}>Sign Up</Button>
+                    </ButtonGroup>
+
+                    <ColorModeSwitch/>
+                </Flex>
+            </HStack>
+        </>
     );
 };
 

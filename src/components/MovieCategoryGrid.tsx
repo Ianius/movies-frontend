@@ -1,7 +1,8 @@
-import { Box, Center, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
+import { VStack, Box, Center, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { MoviePageResponse } from '../interfaces/movies';
-import { MovieCover } from './MovieCover';
+
+import MovieCover from './MovieCover';
 
 interface Props {
     id?: string;
@@ -25,24 +26,21 @@ const MovieCategoryGrid = ({ id, amount = 12, title, query }: Props) => {
                 .map((_, i) => <MovieCover key={i} loading />);
 
     return (
-        <Center
-            p={6}
+        <VStack
+            w='100%'
+            pb='2em'
+            spacing='1.5em'
         >
-            <Box w='100%'>
-                <Center>
-                    <Heading as='h1'>{title}</Heading>
-                </Center>
+            <Heading w='100%' size='lg' textAlign='left'>{title}</Heading>
 
-                <Spacer height={6} />
-
-                <SimpleGrid
-                    columns={[2, 3, 4, 6]}
-                    spacing={4}
-                >
-                    {movies}
-                </SimpleGrid>
-            </Box>
-        </Center>
+            <SimpleGrid
+                boxSize='100%'
+                columns={[2, 3, 4, 6]}
+                spacing={4}
+            >
+                {movies}
+            </SimpleGrid>
+        </VStack>
     );
 };
 

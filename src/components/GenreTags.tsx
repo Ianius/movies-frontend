@@ -19,8 +19,7 @@ const GenreTags = ({ genres, spacing = '8px', py }: Props) => {
                     key={genre.id}
                 >
                     <Tag
-                        bg='cyan.900'
-                        color='cyan.400'
+                        bg='mainDark'
                         borderRadius='sm'
                         variant='solid'
                         fontWeight='bold'

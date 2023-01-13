@@ -1,18 +1,16 @@
-import NavBar from './NavBar';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Flex, Box } from '@chakra-ui/react';
+
+import NavBar from './NavBar';
 import Home from '../pages/Home';
 import Footer from './Footer';
-import { useEffect } from 'react';
 import Search from '../pages/Search';
 import Movie from '../pages/Movie';
-import { Box } from '@chakra-ui/react';
 import ScrollToTop from './ScrollToTop';
 
 const App = () => {
-    const NAVBAR_HEIGHT = 64;
-    const FOOTER_HEIGHT = 60;
-
     const handleKeyDown = (event: KeyboardEvent) => {
         switch (event.key) {
             case 'Escape':
@@ -27,11 +25,14 @@ const App = () => {
     });
 
     return (
-        <Box
-            color='white'
-        >
-            <Router>
-                <ScrollToTop />
+        <Router>
+            <Flex
+                minH='100vh'
+                align='center'
+                direction='column'
+            >
+                <ScrollToTop/>
+
                 <Helmet>
                     <title>Movies</title>
                     <meta
@@ -40,21 +41,25 @@ const App = () => {
                     />
                 </Helmet>
 
-                <NavBar h={NAVBAR_HEIGHT} />
+                <NavBar/>
 
-                <Box
-                    minH={`calc(100vh - ${NAVBAR_HEIGHT + FOOTER_HEIGHT - 1}px)`}
+                <Flex
+                    w='100%'
+                    px='2em'
+                    flex={1}
+                    maxW='1300px'
+                    direction='column'
                 >
                     <Routes>
-                        <Route path='/' element={<Home />} />
-                        <Route path='/search' element={<Search />} />
-                        <Route path='/movie/:id' element={<Movie />} />
+                        <Route path='/' element={<Home/>} />
+                        <Route path='/search' element={<Search/>} />
+                        <Route path='/movie/:id' element={<Movie/>} />
                     </Routes>
-                </Box>
+                </Flex>
 
-                <Footer h={FOOTER_HEIGHT} />
-            </Router>
-        </Box>
+                <Footer/>
+            </Flex>
+        </Router>
     );
 };
 

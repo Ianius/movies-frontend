@@ -20,162 +20,160 @@ const Movie = () => {
     const ratingColor =
         rating < 30
             ? 'pink.500'
-            : rating < 60
-                ? 'blue.500'
-                : 'cyan.500';
-    
+            : (rating < 60
+                    ? 'blue.500'
+                    : 'cyan.500');
+
     return (
-        <Center p='20px'>
-            <Box
-                w='100%'
-                maxW='1300px'
+        <Box
+            p='20px'
+        >
+            <Grid
+                p='4px'
+                gap='8px'
+                templateRows='repeat(1, 1fr)'
+                templateColumns='repeat(6, 1fr)'
             >
-                <Grid
-                    p='4px'
-                    gap='8px'
-                    templateRows='repeat(1, 1fr)'
-                    templateColumns='repeat(6, 1fr)'
+                <GridItem
+                    rowSpan={1}
+                    // Change this to one
+                    colSpan={2}
                 >
-                    <GridItem
-                        rowSpan={1}
-                        colSpan={2}
+                    <AspectRatio
+                        w='100%'
+                        ratio={500 / 750}
                     >
-                        <AspectRatio
-                            w='100%'
-                            ratio={500 / 750}
+                        <Skeleton
+                            isLoaded={!detailsQuery.isLoading}
                         >
-                            <Skeleton
-                                isLoaded={!detailsQuery.isLoading}
+                            <Box
+                                position='relative'
                             >
-                                <Box
-                                    position='relative'
-                                >
-                                    <Image
-                                        src={detailsQuery.data?.poster_path ? API.buildImageURL('w500', detailsQuery.data.poster_path) : ""}
-                                        // fit='cover'
-                                        cursor='pointer'
-                                        borderRadius='4px'
-                                        dropShadow='outline'
-                                        />
+                                <Image
+                                    src={detailsQuery.data?.poster_path ? API.buildImageURL('w500', detailsQuery.data.poster_path) : ""}
+                                    // fit='cover'
+                                    cursor='pointer'
+                                    borderRadius='4px'
+                                    dropShadow='outline'
+                                />
 
-                                    <Center
-                                        bg='blue.900'
-                                        maxW='72px'
-                                        maxH='72px'
-                                        borderRadius='full'
+                                <Center
+                                    bg='blue.900'
+                                    maxW='72px'
+                                    maxH='72px'
+                                    borderRadius='full'
+                                    position='absolute'
+                                    left='8px'
+                                    bottom='8px'
+                                >
+                                    <Box
+                                        bg='black'
+                                        minW='100%'
+                                        minH='100%'
+                                        opacity='0.6'
                                         position='absolute'
-                                        left='8px'
-                                        bottom='8px'
+                                        borderRadius='full'
+                                    />
+
+                                    <CircularProgress
+                                        py='8px'
+                                        value={rating}
+                                        size='70px'
+                                        color={ratingColor}//'blue.400'
+                                        thickness='6px'
+                                        trackColor='blue.900'
                                     >
-                                        <Box
-                                            bg='black'
-                                            opacity='0.6'
-                                            minW='100%'
-                                            minH='100%'
-                                            position='absolute'
-                                            borderRadius='full'
-                                        />
+                                        <CircularProgressLabel fontWeight='bold'>
+                                            {rating}%
+                                        </CircularProgressLabel>
+                                    </CircularProgress>
+                                </Center>
+                            </Box>
+                        </Skeleton>
+                    </AspectRatio>
+                </GridItem>
 
-                                        <CircularProgress
-                                            py='8px'
-                                            value={rating}
-                                            size='70px'
-                                            color={ratingColor}//'blue.400'
-                                            thickness='6px'
-                                            trackColor='blue.900'
-                                        >
-                                            <CircularProgressLabel fontWeight='bold'>
-                                                {rating}%
-                                            </CircularProgressLabel>
-                                        </CircularProgress>
-                                    </Center>
-                                </Box>
-                            </Skeleton>
-                        </AspectRatio>
-                    </GridItem>
-
-                    <GridItem
-                        rowSpan={1}
-                        colSpan={4}
+                <GridItem
+                    rowSpan={1}
+                    colSpan={4}
+                >
+                    <Flex 
+                        minH='100%' 
+                        gap={2} 
+                        direction='column' 
+                        px='10px'
                     >
-                        <Flex 
-                            minH='100%' 
-                            gap={2} 
-                            direction='column' 
-                            px='10px'
-                        >
-                            { /* <Skeleton isLoaded={!detailsQuery.isLoading}> */ }
-                                <Heading size='xl'>
-                                    <Highlight
-                                        query={"(" + year + ")"}
-                                        styles={{ rounded: 'full', color: 'blue.400' }}
-                                    >
-                                        {detailsQuery.data?.title + " " + "(" + year + ")"}
-                                    </Highlight>
-                                </Heading>
-                            { /* </Skeleton> */ }
-
-                            { /* <SkeletonText isLoaded={!detailsQuery.isLoading} noOfLines={1}> */ }
-                                <Text>{detailsQuery.data?.tagline}</Text>
-                            { /* </SkeletonText> */ }
-
-                            { /* <Skeleton isLoaded={!detailsQuery.isLoading}> */ }
-                                {detailsQuery.data ? <GenreTags genres={detailsQuery.data.genres}/> : undefined}
-                            { /* </Skeleton> */ }
-
-                            { /* <Skeleton isLoaded={!detailsQuery.isLoading}> */ }
-                                <Heading size='md'>Overview</Heading>
-                            { /* </Skeleton> */ }
-
-                            { /* <SkeletonText isLoaded={!detailsQuery.isLoading} noOfLines={3}> */ }
-                                <Text>{detailsQuery.data?.overview}</Text>
-                            { /* </SkeletonText> */ }
-
-                            { /* <Skeleton isLoaded={!creditsQuery.isLoading}> */ }
-                            { /* </Skeleton> */ }
-
-                            <Flex
-                                flex={1}
-                                justify='end'
-                                direction='column'
+                        { /* <Skeleton isLoaded={!detailsQuery.isLoading}> */ }
+                        <Heading size='xl'>
+                            <Highlight
+                                query={"(" + year + ")"}
+                                styles={{ rounded: 'full', color: 'blue.400' }}
                             >
-                                <SimpleGrid
-                                    w='100%'
-                                    flex={1}
-                                    columns={3}
-                                    spacingX='20%'
-                                    alignItems='center'
-                                >
-                                    {creditsQuery.data?.crew.slice(0, 6).map(member => (
-                                        <Box>
-                                            <b>
-                                                {member.name}
-                                            </b>
+                                {detailsQuery.data?.title + " " + "(" + year + ")"}
+                            </Highlight>
+                        </Heading>
+                        { /* </Skeleton> */ }
 
-                                            <br/>
+                        { /* <SkeletonText isLoaded={!detailsQuery.isLoading} noOfLines={1}> */ }
+                        <Text>{detailsQuery.data?.tagline}</Text>
+                        { /* </SkeletonText> */ }
 
-                                            <Box color='gray.400'>
-                                                {member.job}
-                                            </Box>
+                        { /* <Skeleton isLoaded={!detailsQuery.isLoading}> */ }
+                        {detailsQuery.data ? <GenreTags genres={detailsQuery.data.genres}/> : undefined}
+                        { /* </Skeleton> */ }
+
+                        { /* <Skeleton isLoaded={!detailsQuery.isLoading}> */ }
+                        <Heading size='md'>Overview</Heading>
+                        { /* </Skeleton> */ }
+
+                        { /* <SkeletonText isLoaded={!detailsQuery.isLoading} noOfLines={3}> */ }
+                        <Text>{detailsQuery.data?.overview}</Text>
+                        { /* </SkeletonText> */ }
+
+                        { /* <Skeleton isLoaded={!creditsQuery.isLoading}> */ }
+                        { /* </Skeleton> */ }
+
+                        <Flex
+                            flex={1}
+                            justify='end'
+                            direction='column'
+                        >
+                            <SimpleGrid
+                                w='100%'
+                                flex={1}
+                                columns={3}
+                                spacingX='20%'
+                                alignItems='center'
+                            >
+                                {creditsQuery.data?.crew.slice(0, 6).map(member => (
+                                    <Box>
+                                        <b>
+                                            {member.name}
+                                        </b>
+
+                                        <br/>
+
+                                        <Box color='gray.400'>
+                                            {member.job}
                                         </Box>
-                                    ))}
-                                </SimpleGrid>
+                                    </Box>
+                                ))}
+                            </SimpleGrid>
 
-                                <VStack
-                                    align='center'
-                                    justify='end'
-                                >
-                                    <Heading size='md'>Cast</Heading>
-                                    <HCastList maxShown={5} data={creditsQuery.data}/>
-                                </VStack>
-                            </Flex>
+                            <VStack
+                                align='center'
+                                justify='end'
+                            >
+                                <Heading size='md'>Cast</Heading>
+                                <HCastList maxShown={5} data={creditsQuery.data}/>
+                            </VStack>
                         </Flex>
-                    </GridItem>
-                </Grid>
+                    </Flex>
+                </GridItem>
+            </Grid>
 
-                <MovieCategoryGrid id={id} title='Similar movies' query={() => API.similarMovies(id)}/>
-            </Box>
-        </Center>
+            <MovieCategoryGrid id={id} title='Similar movies' query={() => API.similarMovies(id)}/>
+        </Box>
     );
 };
 
@@ -216,7 +214,7 @@ const HCastList = ({ data, maxShown }: { data?: MovieCredits, maxShown: number }
                             <Icon as={FiImage} boxSize='60px' color='gray.500' />
                         </Center>
                     )}
-                    />
+                />
 
                 <Center
                     px='8px'
@@ -247,7 +245,7 @@ const HCastList = ({ data, maxShown }: { data?: MovieCredits, maxShown: number }
                     onClick={() => setIndex(Math.max(index - 1, 0))}
                     transition='opacity 0.1s'
                     _hover={{ opacity: 1 }}
-                    />
+                />
 
                 {members}
 
@@ -259,7 +257,7 @@ const HCastList = ({ data, maxShown }: { data?: MovieCredits, maxShown: number }
                     onClick={() => setIndex(Math.min(index + 1, Math.ceil(cast.length / maxShown) - 1))}
                     transition='opacity 0.1s'
                     _hover={{ opacity: 1 }}
-                    />
+                />
             </HStack>
         </VStack>
     );

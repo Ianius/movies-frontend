@@ -5,8 +5,10 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
-import '@fontsource/raleway/400.css'
-import '@fontsource/open-sans/700.css'
+
+import '@fontsource/raleway/700.css'
+import '@fontsource/roboto/400.css'
+
 import theme from './theme';
 
 const queryClient = new QueryClient();

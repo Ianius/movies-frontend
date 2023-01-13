@@ -5,16 +5,12 @@ import MovieCategoryGrid from "../components/MovieCategoryGrid";
 
 const Home = () => {
     return (
-        <Center>
-            <Box
-                w='100%'
-                maxW='1300px'
-            >
-                <Hero />
-                <MovieCategoryGrid title='Popular' query={API.popular} />
-                <MovieCategoryGrid title='Trending' query={API.trending} />
-            </Box>
-        </Center>
+        <Box
+            w='100%'
+        >
+            <MovieCategoryGrid title='Popular' query={API.popular}/>
+            <MovieCategoryGrid title='Trending' query={API.trending}/>
+        </Box>
     );
 };
 

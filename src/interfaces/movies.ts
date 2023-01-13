@@ -34,6 +34,13 @@ export interface MovieSearchResponse {
     total_pages: number;
 }
 
+export interface MovieGenresResponse {
+    genres: {
+        id: number;
+        name: string;
+    }[];
+}
+
 export interface MovieDetails {
     adult: boolean,
     backdrop_path?: string;
