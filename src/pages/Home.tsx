@@ -1,15 +1,17 @@
-import { Box, Center } from "@chakra-ui/react";
-import { API } from "../api";
-import Hero from "../components/Hero";
+import { Box } from "@chakra-ui/react";
 import MovieCategoryGrid from "../components/MovieCategoryGrid";
+import { usePopular, useTrending } from "../hooks/movie";
 
 const Home = () => {
+    const { data: popular } = usePopular();
+    const { data: trending } = useTrending();
+
     return (
         <Box
             w='100%'
         >
-            <MovieCategoryGrid title='Popular' query={API.popular}/>
-            <MovieCategoryGrid title='Trending' query={API.trending}/>
+            <MovieCategoryGrid title='Popular' movies={popular}/>
+            <MovieCategoryGrid title='Popular' movies={trending}/>
         </Box>
     );
 };

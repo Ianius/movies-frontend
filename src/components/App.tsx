@@ -1,13 +1,14 @@
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
-import { Flex, Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
-import NavBar from './NavBar';
+import Navbar from './Navbar';
 import Home from '../pages/Home';
 import Footer from './Footer';
 import Search from '../pages/Search';
 import Movie from '../pages/Movie';
+import Lists from '../pages/Lists';
 import ScrollToTop from './ScrollToTop';
 
 const App = () => {
@@ -41,7 +42,7 @@ const App = () => {
                     />
                 </Helmet>
 
-                <NavBar/>
+                <Navbar/>
 
                 <Flex
                     w='100%'
@@ -54,6 +55,7 @@ const App = () => {
                         <Route path='/' element={<Home/>} />
                         <Route path='/search' element={<Search/>} />
                         <Route path='/movie/:id' element={<Movie/>} />
+                        <Route path='/lists' element={<Lists/>} />
                     </Routes>
                 </Flex>
 

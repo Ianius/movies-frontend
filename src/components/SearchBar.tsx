@@ -1,29 +1,27 @@
 import { SearchIcon } from '@chakra-ui/icons';
-import { InputGroup, InputLeftElement, useColorModeValue } from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/react';
 import { useNavigate } from "react-router-dom";
-import { ChangeEvent, useState, KeyboardEvent } from "react";
+import { useState } from "react";
 
-import TextArea from './TextArea';
+import InputField from './InputField';
 
 const SearchBar = () => {
     const navigate = useNavigate();
     const placeholderColor = useColorModeValue('darkAccent', 'lightAccent');
 
-    const onSubmit = (text: string) => text.length > 0 && navigate(`/search?q=${text}`);
+    const [searchText, setSearchText] = useState("");
+
+    const onSubmit = () => searchText.length > 0 && navigate(`/search?q=${searchText}`);
 
     return (
-        <TextArea
-            flex={1}
+        <InputField
             mx='20px'
+            flex={1}
+            text={searchText}
+            setText={setSearchText}
             placeholder='Search movies'
             placeholderColor={placeholderColor}
-            leftElement={
-                <SearchIcon
-                    color={placeholderColor}
-                    opacity='0.2'
-                />
-            }
-
+            leftElement={<SearchIcon color={placeholderColor} opacity='0.2'/>}
             onTextSubmitted={onSubmit}
         />
     );

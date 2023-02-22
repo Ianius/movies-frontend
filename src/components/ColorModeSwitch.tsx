@@ -6,11 +6,9 @@ const ColorModeSwitch = () => {
 
     return (
         <HStack
-            py='12px'
-            px='20px'
         >
             <Icon as={FaSun} fontSize='xl' /> 
-            <Switch isChecked={colorMode === 'dark'} colorScheme='black' onChange={toggleColorMode} />
+            <Switch isChecked={colorMode === 'dark'} colorScheme='blue' onChange={toggleColorMode} />
             <Icon as={FaMoon} fontSize='xl' /> 
         </HStack>
     );

@@ -1,48 +1,104 @@
-import { Icon, MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { RiMovie2Fill } from 'react-icons/ri'
-import { HiFilm } from 'react-icons/hi'
-import { RiMovieFill } from 'react-icons/ri'
-import { MdArrowBackIosNew } from 'react-icons/md'
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRef, forwardRef } from "react";
 import {
-    Center,
     Flex,
+    Text,
+    Menu,
+    Icon,
+    Avatar,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuGroup,
+    MenuDivider,
     Heading,
-    IconButton,
     ButtonGroup,
-    Spacer,
-    Stack,
     Mark,
     HStack,
     Box,
-    Highlight,
-    InputGroup,
-    InputLeftElement,
-    InputRightElement,
     Button,
-    Input,
-    useColorMode,
+    Spacer,
+    IconButton,
     useColorModeValue,
-    useHighlight,
     useDisclosure,
+    useBoolean,
+    useOutsideClick
 } from '@chakra-ui/react';
+import { useUser, useLogout } from "../hooks/auth";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { CgLogOut } from 'react-icons/cg';
 
 import ColorModeSwitch from './ColorModeSwitch';
 import SearchBar from './SearchBar';
-import LoginModal from './LoginModal';
+import AuthModal from "./AuthModal";
 
-const NavBar = () => {
+interface NavbarMenuProps {
+    isOpen?: boolean;
+    button: React.ReactNode;
+    children: React.ReactNode;
+}
+
+const NavbarMenu = forwardRef<HTMLDivElement, NavbarMenuProps>(({ isOpen, children, button }, ref) => {
+    return (
+        <Menu
+            isOpen={isOpen}
+            placement='bottom-end'
+            closeOnSelect={false}
+        >
+            <MenuButton
+                as={Box}
+                pointerEvents='none'
+            >
+                {button}
+            </MenuButton>
+
+            <MenuList
+                bg={useColorModeValue('lightAccent', 'darkAccent')}
+            >
+                <Box
+                    ref={ref}
+                >
+                    {children}
+                </Box>
+            </MenuList>
+        </Menu>
+    );
+});
+
+const SharedNavbarMenuItems = () => (
+    <MenuGroup 
+        title='View Options'
+    >
+        <MenuItem>
+            <Flex
+                w='100%'
+            >
+                <Text>Dark Mode</Text>
+                <Spacer flex={1}/>
+                <ColorModeSwitch/>
+            </Flex>
+        </MenuItem>
+    </MenuGroup>
+);
+
+const Navbar = () => {
     const navigate = useNavigate();
-    const { colorMode, toggleColorMode } = useColorMode();
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen, onOpen, onClose} = useDisclosure();
 
-    const goHome = () => navigate('/');
+    const [isMenuOpen, setIsMenuOpen] = useBoolean(false);
+    const menuRef = useRef(null);
+
+    useOutsideClick({
+        ref: menuRef,
+        handler: setIsMenuOpen.off
+    });
+
+    const user = useUser();
+    const logout = useLogout();
 
     return (
         <>
-            { /* Modals */ } 
-            <LoginModal isOpen={isOpen} onClose={onClose}/>
+            <AuthModal isOpen={isOpen} onClose={onClose} />
 
             <HStack
                 w='100%'
@@ -60,37 +116,110 @@ const NavBar = () => {
                     align='center'
                     boxSize='100%'
                 >
-                    <Heading
-                        size='lg'
-                        color={useColorModeValue('black', 'white')}
-                        cursor='pointer'
-                        onClick={goHome}
+                    <a
+                        onClick={() => navigate('/')}
                     >
-                        <Box>
-                            film
+                        <Heading
+                            size='lg'
+                            color={useColorModeValue('black', 'white')}
+                            cursor='pointer'
+                        >
+                            <Box>
+                                film
 
-                            <Mark bg={useColorModeValue('mainLight', 'mainDark')} color={useColorModeValue('white', 'black')} px='1.5' py='0.5'>
-                                feast
-                            </Mark>
-                        </Box>
-                    </Heading>
+                                <Mark bg={useColorModeValue('mainLight', 'mainDark')} color={useColorModeValue('white', 'black')} px='1.5' py='0.5'>
+                                    feast
+                                </Mark>
+                            </Box>
+                        </Heading>
+                    </a>
 
                     <SearchBar/>
 
-                    <ButtonGroup
-                        variant='ghost'
-                        colorScheme='gray'
-                        mx='0.25em'
-                    >
-                        <Button onClick={onOpen}>Log In</Button>
-                        <Button onClick={() => {}}>Sign Up</Button>
-                    </ButtonGroup>
+                    { !user &&
+                        <ButtonGroup
+                            variant='solid'
+                            colorScheme='purple'
+                            mx='0.25em'
+                        >
+                            <Button onClick={onOpen}>Log In</Button>
+                        </ButtonGroup>
+                    }
 
-                    <ColorModeSwitch/>
+                    <NavbarMenu
+                        ref={menuRef}
+                        isOpen={isMenuOpen}
+                        button={
+                            <HStack
+                                ml='1em'
+                                cursor='pointer'
+                                spacing='1em'
+                                pointerEvents='all'
+                                onClick={setIsMenuOpen.on}
+                            >
+                                { user &&
+                                    <HStack
+                                    >
+                                        <Avatar size='xs' />
+                                        <Heading size='sm'>{user.username}</Heading>
+                                    </HStack>
+                                }
+
+                                <IconButton 
+                                    mx='0px'
+                                    icon={<HamburgerIcon />} 
+                                    variant='ghost'
+                                    aria-label='Options' 
+                                />
+                            </HStack>
+                        }
+                    >
+                        <SharedNavbarMenuItems />
+
+                        { user &&
+                            <>
+                                <MenuDivider />
+
+                                <MenuGroup
+                                    title='Profile'
+                                >
+                                    <MenuItem
+                                        onClick={() => navigate('/lists', { state: { selected: "Favorites" } })}
+                                    >
+                                        Favorites
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        onClick={() => navigate('/lists', { state: { selected: "Watchlist" } })}
+                                    >
+                                        Watchlist
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        onClick={() => navigate('/lists')}
+                                    >
+                                        Lists
+                                    </MenuItem>
+
+                                    <MenuItem 
+                                        onClick={() => {
+                                            setIsMenuOpen.off();
+                                            logout();
+                                        }}
+                                    >
+                                        <HStack>
+                                            <Icon as={CgLogOut} boxSize='20px' />
+                                            <Text>Log Out</Text>
+                                        </HStack>
+                                    </MenuItem>
+                                </MenuGroup>
+                            </>
+                        }
+                    </NavbarMenu>
                 </Flex>
             </HStack>
         </>
     );
 };
 
-export default NavBar;
+export default Navbar;

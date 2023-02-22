@@ -1,44 +1,39 @@
-import { VStack, Box, Center, Heading, SimpleGrid, Spacer } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
+import { VStack, Heading, SimpleGrid } from '@chakra-ui/react';
 import { MoviePageResponse } from '../interfaces/movies';
 
-import MovieCover from './MovieCover';
+import CoverImagePopover from './CoverImagePopover';
 
 interface Props {
-    id?: string;
-    amount?: number;
     title: string;
-    query: () => Promise<MoviePageResponse>;
+    amount?: number;
+    movies?: MoviePageResponse;
 }
 
-const MovieCategoryGrid = ({ id, amount = 12, title, query }: Props) => {
-    const { data, error } = useQuery<MoviePageResponse, Error>([title, id], query);
-
-    if (error) return <Center>Error! {error.message}</Center>;
-
-    const movies =
-        data
-            ? data.results
+const MovieCategoryGrid = ({ title, amount = 12, movies }: Props) => {
+    const elements =
+        movies
+            ? movies.results
                 .slice(0, amount)
-                .map((movie, i) => <MovieCover key={i} movie={movie} />)
+                .map((movie, i) => <CoverImagePopover key={i} movie={movie} />)
             : Array(amount)
                 .fill(0)
-                .map((_, i) => <MovieCover key={i} loading />);
+                .map((_, i) => <CoverImagePopover key={i} />);
 
     return (
         <VStack
             w='100%'
             pb='2em'
             spacing='1.5em'
+            align='left'
         >
-            <Heading w='100%' size='lg' textAlign='left'>{title}</Heading>
+            <Heading size='lg'>{title}</Heading>
 
             <SimpleGrid
                 boxSize='100%'
                 columns={[2, 3, 4, 6]}
                 spacing={4}
             >
-                {movies}
+                {elements}
             </SimpleGrid>
         </VStack>
     );

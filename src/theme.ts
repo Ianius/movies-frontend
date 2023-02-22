@@ -11,7 +11,8 @@ const theme = extendTheme({
         mainLight: '#7529cc',
         mainDark: '#965ed6',
 
-        darkAccent: '#221f47',
+        // darkAccent: '#221f47',
+        darkAccent: '#2a2842',
         lightAccent: '#ffffff',
 
         bodyLight: '#ffffff',

@@ -1,22 +1,26 @@
-import { Icon, StarIcon } from '@chakra-ui/icons';
-import { HStack, AspectRatio, Box, Center, Flex, Image, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Skeleton, SkeletonText, Text, Tag, useColorModeValue, Wrap, WrapItem, Portal } from '@chakra-ui/react';
-import { Movie, MovieDetails, MovieGenresResponse } from '../interfaces/movies';
-import { useQuery } from '@tanstack/react-query';
-import { API } from '../api';
+import { StarIcon } from '@chakra-ui/icons';
+import { HStack, Box, Flex, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Text, useColorModeValue } from '@chakra-ui/react';
+import { Movie } from '../interfaces/movies';
+
 import GenreTags from './GenreTags';
+import { useGenres } from '../hooks/movie';
 
 interface Props {
     movie: Movie;
+    isOpen: boolean;
     children: React.ReactNode;
 }
 
-const MoviePopover = ({ movie, children }: Props) => {
-    const { data: { genres } = { genres: [] } } = useQuery<MovieGenresResponse>(["genres", movie.id], API.genres);
+const MoviePopover = ({ movie, isOpen, children }: Props) => {
+    const { data: { genres } } = useGenres();
 
     return (
         <Popover
-            placement='right'
+            id='movie-popover'
+            isOpen={isOpen}
             trigger='hover'
+            autoFocus={false}
+            placement='right'
             openDelay={0}
             closeDelay={0}
         >
@@ -66,7 +70,7 @@ const MoviePopover = ({ movie, children }: Props) => {
                     {<GenreTags
                         genres={movie.genre_ids.map(id => ({
                             id: id,
-                            name: genres.find(genre => genre.id == id)?.name ?? ""
+                            name: genres.find(genre => genre.id === id)?.name ?? ""
                         }))}
                     />}
                 </PopoverFooter>
