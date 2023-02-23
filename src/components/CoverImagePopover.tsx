@@ -55,9 +55,9 @@ const CoverImagePopover = ({ movie = defaultMovieData }: Props) => {
                 >
                     <a
                         onClick={handleClick}
+                        href={url}
                     >
                         <Image
-                            src={url}
                             cursor='pointer'
                             onPointerEnter={setIsPopoverOpen.on}
                             onPointerLeave={setIsPopoverOpen.off}

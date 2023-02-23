@@ -70,11 +70,11 @@ const ListItemCheckbox = ({ name, listId, movieId, onDelete }: ListItemCheckboxP
     );
 };
 
-interface ManageListsWindow {
+interface ManageListsWindowProps {
     movieId: number;
 }
 
-const ManageListsWindow = ({ movieId }: ManageListsWindow) => {
+const ManageListsWindow = ({ movieId }: ManageListsWindowProps) => {
     const toast                                             = useToast();
     const { data: lists, isLoading: listsLoading, refetch } = useUserLists();
     const [newListName, setNewListName]                     = useState("");

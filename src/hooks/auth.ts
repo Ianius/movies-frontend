@@ -79,7 +79,7 @@ export const useUser = () => {
     useEffect(() => {
         window.removeEventListener("user", userChanged);
         window.addEventListener("user", userChanged);
-    }, []);
+    }, [userChanged]);
 
     return user;
 };

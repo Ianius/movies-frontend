@@ -1,7 +1,6 @@
 import { HStack } from "@chakra-ui/react";
 import { MdBookmark, MdFavorite, MdList } from "react-icons/md";
-import { useItemStatusAny, useLists, useMovie } from "../hooks/movie";
-import { MovieDetails } from "../interfaces/movies";
+import { useItemStatusAny, useLists } from "../hooks/movie";
 
 import AddToListButton from "./AddToListButton";
 import ListPopover from "./ListPopover";
@@ -12,7 +11,6 @@ interface Props {
 }
 
 const MovieListButtons = ({ movieId }: Props) => {
-    const { data: movie }     = useMovie(movieId);
     const { data: lists }     = useLists();
     const { data: statusAny } = useItemStatusAny(movieId);
 

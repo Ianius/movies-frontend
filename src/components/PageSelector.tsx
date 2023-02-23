@@ -39,7 +39,7 @@ const PageSelector = ({ page, totalPages, selectPage, ...rest }: Props) => {
                 .map((_, i) => {
                     const current = Math.max(centerSectionStartPage, 1) + i;
 
-                    if (current > totalPages) return;
+                    if (current > totalPages) return <></>;
 
                     return <Button 
                         key={i} 

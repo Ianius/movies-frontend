@@ -118,7 +118,7 @@ const Navbar = () => {
                     boxSize='100%'
                 >
                     <a
-                        onClick={() => navigate('/')}
+                        href='/'
                     >
                         <Heading
                             size='lg'

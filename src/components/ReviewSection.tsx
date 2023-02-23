@@ -44,9 +44,10 @@ const ReviewSection = ({ movieId }: Props) => {
                 <Spinner />
             }
 
-            { (data && data.reviews.length > 0) &&
-                data.reviews.map((review, i) => <Review key={i} {...review} />) ||
-                <Box color='gray.500'>Be the first to write a review!</Box>
+            { 
+                (data && data.reviews.length > 0) 
+                    ? data.reviews.map((review, i) => <Review key={i} {...review} />) 
+                    : <Box color='gray.500'>Be the first to write a review!</Box>
             }
 
             { data &&

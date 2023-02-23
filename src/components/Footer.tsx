@@ -1,8 +1,6 @@
-import { VStack, Heading, Center, Image, Link, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { VStack, Heading, Image, Link, useColorModeValue } from "@chakra-ui/react";
 
 const Footer = () => {
-    const { colorMode } = useColorMode();
-
     return (
         <VStack
             w='100%'

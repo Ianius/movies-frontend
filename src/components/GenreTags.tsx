@@ -1,4 +1,4 @@
-import { Tag, TagLabel, Wrap, WrapProps, WrapItem, useColorModeValue } from "@chakra-ui/react";
+import { Tag, TagLabel, Wrap, WrapProps, WrapItem } from "@chakra-ui/react";
 import { MovieGenre } from "../interfaces/movies";
 
 interface Props extends WrapProps {
@@ -6,11 +6,6 @@ interface Props extends WrapProps {
 }
 
 const GenreTags = ({ genres, spacing = '8px', py, ...rest }: Props) => {
-    const [tagBgColor, tagTextColor] = [
-        useColorModeValue('purple.200', 'purple.800'),
-        useColorModeValue('purple.800', 'purple.200'),
-    ];
-    
     return (
         <Wrap
             w='100%'
