@@ -39,6 +39,7 @@ interface NavbarMenuProps {
 }
 
 const NavbarMenu = forwardRef<HTMLDivElement, NavbarMenuProps>(({ isOpen, children, button }, ref) => {
+    //
     return (
         <Menu
             isOpen={isOpen}
