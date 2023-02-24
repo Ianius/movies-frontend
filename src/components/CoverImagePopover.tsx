@@ -1,6 +1,6 @@
 import { Icon } from '@chakra-ui/icons';
 import { AspectRatio, Center, Image, Skeleton, useBoolean } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Movie } from '../interfaces/movies';
 import { FiImage } from 'react-icons/fi';
 
@@ -31,15 +31,8 @@ interface Props {
 }
 
 const CoverImagePopover = ({ movie = defaultMovieData }: Props) => {
-    const navigate = useNavigate();
     const [isPopoverOpen, setIsPopoverOpen] = useBoolean(false);
     const { url, isLoading: posterLoading } = usePosterImage('w185', movie);
-
-    const handleClick = () => {
-        if (movie.id < 0) return;
-        setIsPopoverOpen.off();
-        navigate(`/movie/${movie.id}`);
-    };
 
     return (
         <MoviePopover
@@ -53,11 +46,12 @@ const CoverImagePopover = ({ movie = defaultMovieData }: Props) => {
                     isLoaded={!posterLoading}
                     borderRadius='sm'
                 >
-                    <a
-                        onClick={handleClick}
-                        href={url}
+                    <Link
+                        to={`/movie/${movie.id}`}
+                        onClick={setIsPopoverOpen.off}
                     >
                         <Image
+                            src={url}
                             cursor='pointer'
                             onPointerEnter={setIsPopoverOpen.on}
                             onPointerLeave={setIsPopoverOpen.off}
@@ -75,7 +69,7 @@ const CoverImagePopover = ({ movie = defaultMovieData }: Props) => {
                                 </Center>
                             }
                         />
-                    </a>
+                    </Link>
                 </Skeleton>
             </AspectRatio>
         </MoviePopover>

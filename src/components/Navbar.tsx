@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useRef, forwardRef } from "react";
+import { useUser, useLogout } from "../hooks/auth";
 import {
     Flex,
     Text,
@@ -24,7 +25,7 @@ import {
     useBoolean,
     useOutsideClick
 } from '@chakra-ui/react';
-import { useUser, useLogout } from "../hooks/auth";
+import { Link } from 'react-router-dom';
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { CgLogOut } from 'react-icons/cg';
 
@@ -117,8 +118,8 @@ const Navbar = () => {
                     align='center'
                     boxSize='100%'
                 >
-                    <a
-                        href='/'
+                    <Link
+                        to='/'
                     >
                         <Heading
                             size='lg'
@@ -133,7 +134,7 @@ const Navbar = () => {
                                 </Mark>
                             </Box>
                         </Heading>
-                    </a>
+                    </Link>
 
                     <SearchBar/>
 
