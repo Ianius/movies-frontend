@@ -1,4 +1,4 @@
-import { Button, HStack, StackProps } from '@chakra-ui/react';
+import { Box, Button, HStack, StackProps } from '@chakra-ui/react';
 
 interface Props extends StackProps {
     page: number;
@@ -39,7 +39,7 @@ const PageSelector = ({ page, totalPages, selectPage, ...rest }: Props) => {
                 .map((_, i) => {
                     const current = Math.max(centerSectionStartPage, 1) + i;
 
-                    if (current > totalPages) return <></>;
+                    if (current > totalPages) return <Box key={i}/>;
 
                     return <Button 
                         key={i} 
